@@ -18,7 +18,24 @@ import Foundation
  */
 // write your code here
 
+class Person {
+  var firstName : String
+  var lastName : String
+  var fullName : String {
+    get {
+      return "\(firstName) \(lastName)"
+    }
+  }
 
+  func greet(_ person : Person) -> String {
+    return "Hello, \(person.firstName)!"
+  }
+
+  init(firstName : String, lastName : String) {
+    self.firstName = firstName
+    self.lastName = lastName
+  }
+}
 
 
 
@@ -84,7 +101,19 @@ extension Double {
 // write your code here
 
 
+class Transaction {
+  var type : String
+  var amount : Double
+  var description : String {
+      let typeString = type == "in" ? "credit" : "debit"
+      return "Transaction: \(typeString) in the amount of $\(amount.toMoney)."
+  }
 
+  init(type : String, amount : Double) {
+    self.amount = amount
+    self.type = type
+  }
+}
 
 
 
@@ -134,7 +163,36 @@ assert(transaction2.description == "Transaction: debit in the amount of $1.20", 
  */
 // write your code here
 
+class BankAccount {
+  var owner : Person
+  var transactions : [Transaction]
+  var balance : Double {
+      var balance = 0.0
+      for transaction in transactions {
+        if transaction.type == "in" {
+          balance += transaction.amount
+        } else {
+          balance -= transaction.amount
+        }
 
+    }
+    return balance
+  }
+
+
+  func deposit(_ amount : Double) {
+    transactions.append(Transaction.init(type: "in", amount: amount))
+  }
+
+  func withdraw(_ amount : Double) {
+    transactions.append(Transaction.init(type: "out", amount: amount))
+  }
+
+  init(owner : Person) {
+    self.owner = owner
+    self.transactions = []
+  }
+}
 
 
 
